@@ -24,19 +24,23 @@
   (migratus/rollback config))
 
 (defn rollback-until-just-after [config id]
-  (migratus/rollback-until-just-after config id))
+  (migratus/rollback-until-just-after config (Long/parseLong id)))
 
 (defn up [config ids]
-  (apply migratus/up config ids))
+  (->> ids
+       (map #(Long/parseLong %))
+       (apply migratus/up config)))
 
 (defn down [config ids]
-  (apply migratus/down config ids))
+  (->> ids
+       (map #(Long/parseLong %))
+       (apply migratus/down config)))
 
 (defn pending-list [config]
   (migratus/pending-list config))
 
 (defn migrate-until-just-before [config id]
-  (migratus/migrate-until-just-before config id))
+  (migratus/migrate-until-just-before config (Long/parseLong id)))
 
 (defn -main [& args]
   (let [command (first args)
