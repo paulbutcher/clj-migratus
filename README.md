@@ -7,7 +7,8 @@
 Add the following to your `deps.edn`:
 
 ```
-:aliases {:migrate {:extra-deps {com.github.paulbutcher/clj-migratus {:git/tag "v1.0.0" :git/sha "67d0fe5"}}
+:aliases {:migrate {:extra-deps {com.github.paulbutcher/clj-migratus {:git/tag "v1.0.0"
+                                                                      :git/sha "67d0fe5"}}
                      :main-opts ["-m" "clj-migratus"]}}
 ```
 
