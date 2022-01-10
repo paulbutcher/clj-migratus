@@ -32,10 +32,10 @@ Or (recommended) `migratus.clj`, allowing credentials to be taken from the envir
 
 Then run, for example:
 
-  $ clj -M:migrate init
-
-	$ clj -M:migrate migrate
-
-	$ clj -M:migrate create create-user-table
+```
+$ clj -M:migrate init
+$ clj -M:migrate migrate
+$ clj -M:migrate create create-user-table
+```
 
 See [Migratus Usage](https://github.com/yogthos/migratus#usage) for documentation on each command.
