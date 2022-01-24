@@ -1,15 +1,34 @@
 (ns clj-migratus
   (:require [migratus.core :as migratus]
             [clojure.java.io :as io]
-            [clojure.edn :as edn]))
+            [clojure.edn :as edn]
+            [clojure.string :as s]))
+
+(defn- load-edn-config [path]
+  (if (.exists (io/file path))
+    (-> (slurp path)
+        edn/read-string)))
+
+(defn- load-clj-config [path]
+  (if (.exists (io/file path))
+    (load-file path)))
+
+(defn- load-config-from-property []
+  (if-let [path (System/getProperty "migratus.config.path")]
+    (let [uri (.toURI (io/resource path))
+          rawPath (.getRawPath uri)]
+      (cond
+        (s/ends-with? path ".edn") (load-edn-config rawPath)
+        (s/ends-with? path ".clj") (load-clj-config rawPath)))))
 
 (defn load-config []
-  (if (.exists (io/file "migratus.edn"))
-    (-> (slurp "migratus.edn")
-        edn/read-string)
-    (if (.exists (io/file "migratus.clj"))
-      (load-file "migratus.clj")
-      (throw (Exception. "Neither migratus.edn nor migratus.clj were found")))))
+  (if-let [config (load-config-from-property)]
+    config
+    (if-let [default-edn (load-edn-config "migratus.edn")]
+      default-edn
+      (if-let [default-clj (load-clj-config "migratus.clj")]
+        default-clj
+        (throw (Exception. "Neither migratus.edn nor migratus.clj were found"))))))
 
 (defn init [config]
   (migratus/init config))
