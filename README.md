@@ -9,8 +9,10 @@ Add the following to your `deps.edn`:
 ```
 :aliases {:migrate {:extra-deps {com.github.paulbutcher/clj-migratus {:git/tag "v1.0.1"
                                                                       :git/sha "401521e"}}
-                     :main-opts ["-m" "clj-migratus"]}}
+                    :jvm-opts["-Dmigratus.config.path=<CLASSPATH_LOCATION>"]
+                    :main-opts ["-m" "clj-migratus"]}}
 ```
+Replace `<CLASSPATH_LOCATION>` with the location of the migratus config file on your classpath. If you do not provide the `:jvm-opts`, either `migratus.edn` or `migratus.clj` directly in your work directory will be tried. 
 
 Create a [Migratus configuration](https://github.com/yogthos/migratus#configuration) file. This can either be `migratus.edn`:
 
