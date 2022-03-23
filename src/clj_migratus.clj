@@ -42,6 +42,9 @@
 (defn rollback [config]
   (migratus/rollback config))
 
+(defn reset [config]
+  (migratus/reset config))
+
 (defn rollback-until-just-after [config id]
   (migratus/rollback-until-just-after config (Long/parseLong id)))
 
@@ -69,6 +72,7 @@
       "create" (create config (second args))
       "migrate" (migrate config)
       "rollback" (rollback config)
+      "reset" (reset config)
       "rollback-until-just-after" (rollback-until-just-after config (second args))
       "up" (up config (rest args))
       "down" (down config (rest args))
